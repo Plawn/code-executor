@@ -1,0 +1,44 @@
+# for each rule, the content to execute is 
+# injected into a random filename, replaced
+#  in the run string
+# <input is automaticcaly cleaned at the end
+rules:
+  # run js using bun
+  js:
+    extension: js
+    steps:
+      - name: run
+        command: bun
+        params: 
+          - run 
+          - <input
+          
+  rust:
+    extension: rs
+    steps:
+      - name: compile
+        command: rustc
+        params: 
+          - -o
+          - do-me
+          - <input
+      - name: run
+        command: ./do-me
+        params: []
+    clean:
+      - do-me
+  # {input} is the placeholder for the data injected
+  c:
+    extension: c
+    steps:
+      - name: compile
+        command: gcc 
+        params:
+          - <input 
+          - -o 
+          - do-me
+      - name: run
+        command: ./do-me
+        params: []
+    clean: 
+      - do-me
