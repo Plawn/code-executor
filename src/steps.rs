@@ -44,9 +44,9 @@ impl Rule {
     fn do_clean(&self, input_name: &str) -> Result<(), Box<dyn Error>> {
         fs::remove_file(input_name)?;
         if let Some(clean) = &self.clean {
-            clean.iter().for_each(|e| {
-                fs::remove_file(e).expect("failed to delete artifact");
-            });
+            for entry in clean {
+                fs::remove_file(entry)?;
+            }
         }
         Ok(())
     }
